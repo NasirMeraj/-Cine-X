@@ -1,7 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const Progress = require("../models/watchProgress");
-
+const WatchProgress = require("../models/WatchProgress");
 const router = express.Router();
 
 const protect = async (req, res, next) => {
