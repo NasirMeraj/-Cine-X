@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "http://localhost:5001/api";
+const API_URL = import.meta.env.VITE_API_URL;
+const BACKEND_URL = API_URL.replace(/\/api$/, "");
 
 function Watchlist() {
     const navigate = useNavigate();
@@ -105,7 +106,7 @@ function Watchlist() {
 
                                 {movie.poster && (
                                     <img
-                                        src={`http://localhost:5001${movie.poster}`}
+                                        src={`${BACKEND_URL}${movie.poster}`}
                                         alt={movie.title}
                                         style={styles.poster}
                                     />

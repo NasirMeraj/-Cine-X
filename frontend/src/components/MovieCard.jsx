@@ -19,7 +19,7 @@ function MovieCard({ movie }) {
       }
 
       if (movie.poster.startsWith("/uploads/")) {
-        setPosterUrl(`http://localhost:5001${movie.poster}`);
+        setPosterUrl(`${import.meta.env.VITE_API_URL.replace(/\/api$/, "")}${movie.poster}`);
         return;
       }
 

@@ -11,7 +11,7 @@ function Subscription() {
     const [subscribing, setSubscribing] = useState(false);
     const [cancelling, setCancelling] = useState(false);
 
-    const API_URL = "http://localhost:5001/api";
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         loadRazorpay();

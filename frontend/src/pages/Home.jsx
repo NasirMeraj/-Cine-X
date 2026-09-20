@@ -8,6 +8,7 @@ import MovieCard from "../components/MovieCard";
 
 function Home() {
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [movies, setMovies] = useState([]);
   const [continueWatching, setContinueWatching] = useState([]);
@@ -24,7 +25,7 @@ function Home() {
   const fetchMovies = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5001/api/movies"
+        `${API_URL}/movies`
       );
 
       setMovies(response.data.movies || []);
@@ -47,7 +48,7 @@ function Home() {
       }
 
       const response = await axios.get(
-        "http://localhost:5001/api/progress",
+        `${API_URL}/progress`,
         {
           headers: {
             Authorization: `Bearer ${token}`

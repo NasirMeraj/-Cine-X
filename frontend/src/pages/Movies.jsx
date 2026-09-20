@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar";
 import MovieCard from "../components/MovieCard";
 
 function Movies() {
+    const API_URL = import.meta.env.VITE_API_URL;
+
     const [movies, setMovies] = useState([]);
     const [search, setSearch] = useState("");
     const [genre, setGenre] = useState("All");
@@ -19,7 +21,7 @@ function Movies() {
     const fetchMovies = async () => {
         try {
             const response = await axios.get(
-                "http://localhost:5001/api/movies"
+                `${API_URL}/movies`
             );
 
             setMovies(response.data.movies || []);

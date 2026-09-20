@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { getR2Url } from "../utils/r2Url";
 
-const API_URL = "http://localhost:5001/api";
+const API_URL = import.meta.env.VITE_API_URL;
+const BACKEND_URL = API_URL.replace(/\/api$/, "");
 
 function WatchMovie() {
     const { id } = useParams();
@@ -42,7 +43,7 @@ function WatchMovie() {
 
         if (movie.video.startsWith("/videos/")) {
             setVideoUrl(
-                `http://localhost:5001${movie.video}`
+                `${BACKEND_URL}${movie.video}`
             );
             return;
         }
@@ -82,7 +83,7 @@ function WatchMovie() {
 
             if (movie.poster.startsWith("/uploads/")) {
                 setPosterUrl(
-                    `http://localhost:5001${movie.poster}`
+                    `${BACKEND_URL}${movie.poster}`
                 );
                 return;
             }
@@ -458,9 +459,9 @@ const styles = {
 
     description: {
         color: "#ccc",
-        lineHeight: "1.7",
-        maxWidth: "800px"
+        lineHeight: "1.7"
     }
 };
 
 export default WatchMovie;
+
