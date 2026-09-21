@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const WatchProgress = require("../models/WatchProgress");
+
 const router = express.Router();
 
 const protect = async (req, res, next) => {
@@ -33,7 +34,7 @@ const protect = async (req, res, next) => {
 
 router.get("/", protect, async (req, res) => {
     try {
-        const progress = await Progress.find({
+        const progress = await WatchProgress.find({
             user: req.user.id,
             progress: { $gt: 0 }
         })
@@ -59,7 +60,7 @@ router.get("/", protect, async (req, res) => {
 
 router.get("/:movieId", protect, async (req, res) => {
     try {
-        const progress = await Progress.findOne({
+        const progress = await WatchProgress.findOne({
             user: req.user.id,
             movie: req.params.movieId
         });
@@ -99,7 +100,7 @@ router.post("/:movieId", protect, async (req, res) => {
         }
 
         const updatedProgress =
-            await Progress.findOneAndUpdate(
+            await WatchProgress.findOneAndUpdate(
                 {
                     user: req.user.id,
                     movie: req.params.movieId
