@@ -33,46 +33,46 @@ function WatchMovie() {
     }, [movie]);
 
     const loadVideo = async () => {
-    try {
-        const token = localStorage.getItem("token");
+        try {
+            const token = localStorage.getItem("token");
 
-        if (movie.video.startsWith("http")) {
-            setVideoUrl(movie.video);
-            return;
-        }
-
-        if (movie.video.startsWith("/videos/")) {
-            setVideoUrl(
-                `${BACKEND_URL}${movie.video}`
-            );
-            return;
-        }
-
-        const response = await axios.get(
-            `${API_URL}/videos/${movie._id}`,
-            {
-                params: {
-                    token
-                }
+            if (movie.video.startsWith("http")) {
+                setVideoUrl(movie.video);
+                return;
             }
-        );
 
-        setVideoUrl(response.data.url);
+            if (movie.video.startsWith("/videos/")) {
+                setVideoUrl(
+                    `${BACKEND_URL}${movie.video}`
+                );
+                return;
+            }
 
-    } catch (error) {
-        console.error(
-            "LOAD VIDEO ERROR:",
-            error.response?.data ||
-            error.message
-        );
+            const response = await axios.get(
+                `${API_URL}/videos/${movie._id}`,
+                {
+                    params: {
+                        token
+                    }
+                }
+            );
 
-        if (error.response?.status === 403) {
-            setVideoError("Premium subscription required");
-        } else {
-            setVideoError("Unable to load video");
+            setVideoUrl(response.data.url);
+
+        } catch (error) {
+            console.error(
+                "LOAD VIDEO ERROR:",
+                error.response?.data ||
+                error.message
+            );
+
+            if (error.response?.status === 403) {
+                setVideoError("Premium subscription required");
+            } else {
+                setVideoError("Unable to load video");
+            }
         }
-    }
-};
+    };
 
     const loadPoster = async () => {
         try {
@@ -194,8 +194,15 @@ function WatchMovie() {
 
     const fetchMovie = async () => {
         try {
+            const token = localStorage.getItem("token");
+
             const response = await axios.get(
-                `${API_URL}/movies/${id}`
+                `${API_URL}/movies/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
             );
 
             setMovie(response.data.movie);
@@ -259,34 +266,34 @@ function WatchMovie() {
             <div style={styles.videoContainer}>
 
                 {movie.video && videoUrl ? (
-    <video
-        ref={videoRef}
-        controls
-        autoPlay
-        style={styles.video}
-        src={videoUrl}
-        onLoadedMetadata={loadProgress}
-        onPause={saveProgress}
-        onEnded={saveProgress}
-    >
-        Your browser does not support video playback.
-    </video>
-) : videoError ? (
-    <div style={styles.noVideo}>
-        <div>
-            <h2>🔒 {videoError}</h2>
-            <p>Subscribe to watch this movie.</p>
-        </div>
-    </div>
-) : movie.video ? (
-    <div style={styles.noVideo}>
-        Loading video...
-    </div>
-) : (
-    <div style={styles.noVideo}>
-        Video not available
-    </div>
-)}
+                    <video
+                        ref={videoRef}
+                        controls
+                        autoPlay
+                        style={styles.video}
+                        src={videoUrl}
+                        onLoadedMetadata={loadProgress}
+                        onPause={saveProgress}
+                        onEnded={saveProgress}
+                    >
+                        Your browser does not support video playback.
+                    </video>
+                ) : videoError ? (
+                    <div style={styles.noVideo}>
+                        <div>
+                            <h2>🔒 {videoError}</h2>
+                            <p>Subscribe to watch this movie.</p>
+                        </div>
+                    </div>
+                ) : movie.video ? (
+                    <div style={styles.noVideo}>
+                        Loading video...
+                    </div>
+                ) : (
+                    <div style={styles.noVideo}>
+                        Video not available
+                    </div>
+                )}
 
             </div>
 
@@ -464,4 +471,3 @@ const styles = {
 };
 
 export default WatchMovie;
-
