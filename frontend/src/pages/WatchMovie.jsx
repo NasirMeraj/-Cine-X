@@ -15,6 +15,8 @@ function WatchMovie() {
     const [videoUrl, setVideoUrl] = useState("");
     const [posterUrl, setPosterUrl] = useState("");
     const [videoError, setVideoError] = useState("");
+    const [userRating, setUserRating] = useState(0);
+    const [ratingMessage, setRatingMessage] = useState("");
 
     const videoRef = useRef(null);
 
@@ -99,6 +101,36 @@ function WatchMovie() {
                 "LOAD POSTER ERROR:",
                 error.message
             );
+        }
+    };
+
+    const submitRating = async (rating) => {
+        try {
+            const token = localStorage.getItem("token");
+
+            await axios.post(
+                `${API_URL}/ratings/${movie._id}`,
+                {
+                    rating
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            setUserRating(rating);
+            setRatingMessage("Rating saved!");
+
+        } catch (error) {
+            console.error(
+                "RATING ERROR:",
+                error.response?.data ||
+                error.message
+            );
+
+            setRatingMessage("Failed to save rating");
         }
     };
 
@@ -351,6 +383,38 @@ function WatchMovie() {
                         {movie.description}
                     </p>
 
+                    <div style={styles.ratingBox}>
+
+                        <h3>Rate this movie</h3>
+
+                        <div>
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    key={star}
+                                    onClick={() =>
+                                        submitRating(star)
+                                    }
+                                    style={{
+                                        ...styles.ratingButton,
+                                        opacity:
+                                            star <= userRating
+                                                ? 1
+                                                : 0.4
+                                    }}
+                                >
+                                    ⭐
+                                </button>
+                            ))}
+                        </div>
+
+                        {ratingMessage && (
+                            <p style={styles.ratingMessage}>
+                                {ratingMessage}
+                            </p>
+                        )}
+
+                    </div>
+
                 </div>
 
             </div>
@@ -467,6 +531,23 @@ const styles = {
     description: {
         color: "#ccc",
         lineHeight: "1.7"
+    },
+
+    ratingBox: {
+        marginTop: "30px"
+    },
+
+    ratingButton: {
+        background: "transparent",
+        border: "none",
+        fontSize: "28px",
+        cursor: "pointer",
+        padding: "4px"
+    },
+
+    ratingMessage: {
+        color: "#aaa",
+        marginTop: "10px"
     }
 };
 
