@@ -8,6 +8,7 @@ import WatchMovie from "./pages/WatchMovie";
 import Watchlist from "./pages/Watchlist";
 import Subscription from "./pages/Subscription";
 import Movies from "./pages/Movies";
+import Notifications from "./pages/Notifications";
 
 import AdminRoute from "./routes/AdminRoute";
 
@@ -20,10 +21,11 @@ function App() {
                     path="/"
                     element={<Home />}
                 />
+
                 <Route
-    path="/movies"
-    element={<Movies />}
-/>
+                    path="/movies"
+                    element={<Movies />}
+                />
 
                 <Route
                     path="/admin"
@@ -57,6 +59,11 @@ function App() {
                 <Route
                     path="/subscription"
                     element={<Subscription />}
+                />
+
+                <Route
+                    path="/notifications"
+                    element={<Notifications />}
                 />
 
             </Routes>

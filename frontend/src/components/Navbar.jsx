@@ -1,4 +1,4 @@
-import { Search, User, Play } from "lucide-react";
+import { Search, User, Play, Bell } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
@@ -16,6 +16,7 @@ function Navbar() {
 
   return (
     <nav className="cine-navbar">
+
       <div className="cine-navbar-logo">
         <Play size={20} fill="currentColor" />
         CINE-X
@@ -34,7 +35,19 @@ function Navbar() {
       </div>
 
       <div className="cine-navbar-actions">
+
         <Search size={22} />
+
+        {token && (
+          <button
+            onClick={() => navigate("/notifications")}
+            style={styles.iconButton}
+            title="Notifications"
+          >
+            <Bell size={22} />
+          </button>
+        )}
+
         <User size={22} />
 
         {!token ? (
@@ -46,9 +59,24 @@ function Navbar() {
             Logout
           </button>
         )}
+
       </div>
+
     </nav>
   );
 }
+
+const styles = {
+  iconButton: {
+    background: "transparent",
+    border: "none",
+    color: "inherit",
+    cursor: "pointer",
+    padding: "4px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+};
 
 export default Navbar;
