@@ -237,6 +237,11 @@ router.post(
                 "notificationSettings.newMovies": true
             }).select("_id");
 
+            console.log(
+                "NOTIFICATION USERS:",
+                users
+            );
+
             if (users.length > 0) {
                 await Notification.insertMany(
                     users.map((user) => ({
