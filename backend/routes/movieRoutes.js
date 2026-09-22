@@ -306,16 +306,55 @@ router.patch(
                 });
             }
 
-            const updateData = {
-                title: req.body.title,
-                description: req.body.description,
-                genre: req.body.genre,
-                language: req.body.language,
-                year: Number(req.body.year),
-                duration: req.body.duration,
-                premium:
-                    req.body.premium === "true"
-            };
+            const updateData = {};
+
+            if (req.body.title !== undefined) {
+                updateData.title = req.body.title;
+            }
+
+            if (req.body.description !== undefined) {
+                updateData.description =
+                    req.body.description;
+            }
+
+            if (req.body.genre !== undefined) {
+                updateData.genre =
+                    req.body.genre;
+            }
+
+            if (req.body.language !== undefined) {
+                updateData.language =
+                    req.body.language;
+            }
+
+            if (
+                req.body.year !== undefined &&
+                req.body.year !== ""
+            ) {
+                const year =
+                    Number(req.body.year);
+
+                if (!Number.isFinite(year)) {
+                    return res.status(400).json({
+                        success: false,
+                        message:
+                            "Year must be a valid number"
+                    });
+                }
+
+                updateData.year = year;
+            }
+
+            if (req.body.duration !== undefined) {
+                updateData.duration =
+                    req.body.duration;
+            }
+
+            if (req.body.premium !== undefined) {
+                updateData.premium =
+                    req.body.premium === true ||
+                    req.body.premium === "true";
+            }
 
             if (req.files?.poster) {
                 const poster =
