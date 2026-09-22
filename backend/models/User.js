@@ -18,6 +18,16 @@ const userSchema = new mongoose.Schema(
             required: true
         },
 
+        resetPasswordToken: {
+            type: String,
+            default: null
+        },
+
+        resetPasswordExpires: {
+            type: Date,
+            default: null
+        },
+
         role: {
             type: String,
             enum: ["user", "admin"],
@@ -34,20 +44,21 @@ const userSchema = new mongoose.Schema(
             type: Date,
             default: null
         },
+
         notificationSettings: {
-    newMovies: {
-        type: Boolean,
-        default: true
-    },
-    subscriptions: {
-        type: Boolean,
-        default: true
-    },
-    system: {
-        type: Boolean,
-        default: true
-    }
-},
+            newMovies: {
+                type: Boolean,
+                default: true
+            },
+            subscriptions: {
+                type: Boolean,
+                default: true
+            },
+            system: {
+                type: Boolean,
+                default: true
+            }
+        },
 
         subscriptionEnd: {
             type: Date,

@@ -149,6 +149,15 @@ function Login() {
                         </button>
                     </div>
 
+                    <div style={styles.forgotPassword}>
+                        <Link
+                            to="/forgot-password"
+                            style={styles.forgotPasswordLink}
+                        >
+                            Forgot Password?
+                        </Link>
+                    </div>
+
                     <button
                         type="submit"
                         disabled={loading}
@@ -313,6 +322,19 @@ const styles = {
         color: "#777",
         cursor: "pointer",
         display: "flex"
+    },
+
+    forgotPassword: {
+        textAlign: "right",
+        marginTop: "-5px",
+        marginBottom: "18px"
+    },
+
+    forgotPasswordLink: {
+        color: "#e50914",
+        fontSize: "13px",
+        fontWeight: "600",
+        textDecoration: "none"
     },
 
     loginButton: {

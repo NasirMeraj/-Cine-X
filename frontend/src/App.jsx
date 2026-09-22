@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 import WatchMovie from "./pages/WatchMovie";
 import Watchlist from "./pages/Watchlist";
 import Subscription from "./pages/Subscription";
@@ -11,6 +12,7 @@ import Movies from "./pages/Movies";
 import Notifications from "./pages/Notifications";
 import AdminRoute from "./routes/AdminRoute";
 import Profile from "./pages/Profile";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
     return (
@@ -47,6 +49,15 @@ function App() {
                 />
 
                 <Route
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                />
+                <Route
+                    path="/reset-password"
+                    element={<ResetPassword />}
+                />
+
+                <Route
                     path="/watch/:id"
                     element={<WatchMovie />}
                 />
@@ -65,14 +76,14 @@ function App() {
                     path="/notifications"
                     element={<Notifications />}
                 />
+
                 <Route
-                   path="/profile"
-                   element={<Profile />}
+                    path="/profile"
+                    element={<Profile />}
                 />
 
             </Routes>
         </BrowserRouter>
-        
     );
 }
 
