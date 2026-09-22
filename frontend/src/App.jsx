@@ -9,8 +9,8 @@ import Watchlist from "./pages/Watchlist";
 import Subscription from "./pages/Subscription";
 import Movies from "./pages/Movies";
 import Notifications from "./pages/Notifications";
-
 import AdminRoute from "./routes/AdminRoute";
+import Profile from "./pages/Profile";
 
 function App() {
     return (
@@ -65,9 +65,14 @@ function App() {
                     path="/notifications"
                     element={<Notifications />}
                 />
+                <Route
+                   path="/profile"
+                   element={<Profile />}
+                />
 
             </Routes>
         </BrowserRouter>
+        
     );
 }
 

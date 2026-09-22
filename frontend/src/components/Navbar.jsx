@@ -48,7 +48,13 @@ function Navbar() {
           </button>
         )}
 
-        <User size={22} />
+        <button
+          onClick={() => navigate("/profile")}
+          style={styles.iconButton}
+          title="Profile"
+        >
+          <User size={22} />
+        </button>
 
         {!token ? (
           <button onClick={() => navigate("/login")}>

@@ -3,7 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { getR2Url } from "../utils/r2Url";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:5001/api";
+
 const BACKEND_URL = API_URL.replace(/\/api$/, "");
 
 function WatchMovie() {
