@@ -57,7 +57,7 @@ select {
   align-items: center;
   gap: 28px;
   margin-left: 60px;
-  transform: translateY(6px);
+  transform: translateY(12px);
 }
 
 .cine-navbar-links a {
@@ -333,7 +333,7 @@ select {
   .cine-navbar-links {
     gap: 20px;
     margin-left: 40px;
-    transform: translateY(6px);
+    transform: translateY(12px);
   }
 
   .cine-navbar-actions {
@@ -365,7 +365,7 @@ select {
   .cine-navbar-links {
     gap: 14px;
     margin-left: 25px;
-    transform: translateY(6px);
+    transform: translateY(12px);
   }
 
   .cine-navbar-links a {
