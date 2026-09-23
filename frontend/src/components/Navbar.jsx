@@ -17,54 +17,78 @@ function Navbar() {
   return (
     <nav className="cine-navbar">
 
-      <div className="cine-navbar-logo">
-        <Play size={20} fill="currentColor" />
-        CINE-X
-      </div>
+      <div className="cine-navbar-top">
 
-      <div className="cine-navbar-links">
-        <Link to="/">Home</Link>
-        <Link to="/movies">Movies</Link>
-        <Link to="/series">Series</Link>
-        <Link to="/watchlist">My Watchlist</Link>
-        <Link to="/subscription">Subscription</Link>
+        <div className="cine-navbar-logo">
+          <Play size={20} fill="currentColor" />
+          CINE-X
+        </div>
 
-        {role === "admin" && (
-          <Link to="/admin">Admin</Link>
-        )}
-      </div>
+        <div className="cine-navbar-actions">
 
-      <div className="cine-navbar-actions">
+          <Search size={22} />
 
-        <Search size={22} />
+          {token && (
+            <button
+              onClick={() => navigate("/notifications")}
+              style={styles.iconButton}
+              title="Notifications"
+            >
+              <Bell size={22} />
+            </button>
+          )}
 
-        {token && (
           <button
-            onClick={() => navigate("/notifications")}
+            onClick={() => navigate("/profile")}
             style={styles.iconButton}
-            title="Notifications"
+            title="Profile"
           >
-            <Bell size={22} />
+            <User size={22} />
           </button>
-        )}
 
-        <button
-          onClick={() => navigate("/profile")}
-          style={styles.iconButton}
-          title="Profile"
-        >
-          <User size={22} />
-        </button>
+          {!token ? (
+            <button onClick={() => navigate("/login")}>
+              Login
+            </button>
+          ) : (
+            <button onClick={handleLogout}>
+              Logout
+            </button>
+          )}
 
-        {!token ? (
-          <button onClick={() => navigate("/login")}>
-            Login
-          </button>
-        ) : (
-          <button onClick={handleLogout}>
-            Logout
-          </button>
-        )}
+        </div>
+
+      </div>
+
+      <div className="cine-navbar-bottom">
+
+        <div className="cine-navbar-links">
+
+          <Link to="/">Home</Link>
+
+          <Link to="/movies">
+            Movies
+          </Link>
+
+          <Link to="/series">
+            Series
+          </Link>
+
+          <Link to="/watchlist">
+            My Watchlist
+          </Link>
+
+          <Link to="/subscription">
+            Subscription
+          </Link>
+
+          {role === "admin" && (
+            <Link to="/admin">
+              Admin
+            </Link>
+          )}
+
+        </div>
 
       </div>
 
