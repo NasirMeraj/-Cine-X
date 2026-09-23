@@ -23,7 +23,7 @@ import {
 } from "expo-router";
 
 const API_URL =
-    "http://192.168.1.41:5001";
+    "https://cine-x-1.onrender.com";
 
 type NotificationSettings = {
     newMovies: boolean;

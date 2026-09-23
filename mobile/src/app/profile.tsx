@@ -20,7 +20,7 @@ import {
     useFocusEffect
 } from "expo-router";
 
-const API_URL = "http://192.168.1.41:5001";
+const API_URL = "https://cine-x-1.onrender.com";
 
 type User = {
     name: string;

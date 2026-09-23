@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import RazorpayCheckout from "react-native-razorpay";
 
-const API_BASE = "http://192.168.1.41:5001";
+const API_BASE = "https://cine-x-1.onrender.com";
 
 export default function SubscriptionScreen() {
     const [loading, setLoading] = useState(false);

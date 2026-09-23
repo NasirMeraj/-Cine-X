@@ -14,7 +14,7 @@ import * as DocumentPicker from "expo-document-picker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://192.168.1.41:5001";
+const API_URL = "https://cine-x-1.onrender.com";
 
 export default function EditMovieScreen() {
     const { id } = useLocalSearchParams();

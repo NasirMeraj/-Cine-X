@@ -12,7 +12,7 @@ import {
     View,
 } from "react-native";
 
-const API_URL = "http://192.168.1.41:5001";
+const API_URL = "https://cine-x-1.onrender.com";
 
 export default function LoginScreen() {
   const router = useRouter();

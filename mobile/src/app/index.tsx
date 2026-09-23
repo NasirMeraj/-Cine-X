@@ -13,7 +13,7 @@ import {
     TextInput,
 } from "react-native";
 
-const API_URL = "http://192.168.1.41:5001";
+const API_URL = "https://cine-x-1.onrender.com";
 
 const categories = [
     "Action",
@@ -74,10 +74,11 @@ export default function HomeScreen() {
             setMovies(
                 response.data.movies || []
             );
-        } catch (error) {
+        } catch (error: any) {
             console.log(
                 "MOVIES ERROR:",
-                error
+                error.response?.data ||
+                    error.message
             );
         } finally {
             setLoading(false);
@@ -102,10 +103,11 @@ export default function HomeScreen() {
             setMovies(
                 response.data.movies || []
             );
-        } catch (error) {
+        } catch (error: any) {
             console.log(
                 "SEARCH ERROR:",
-                error
+                error.response?.data ||
+                    error.message
             );
 
             setMovies([]);
@@ -171,10 +173,11 @@ export default function HomeScreen() {
             setUnreadNotifications(
                 response.data.unreadCount || 0
             );
-        } catch (error) {
+        } catch (error: any) {
             console.log(
                 "NOTIFICATION COUNT ERROR:",
-                error
+                error.response?.data ||
+                    error.message
             );
 
             setUnreadNotifications(0);
@@ -183,45 +186,70 @@ export default function HomeScreen() {
 
     const getPosterUrl = async (
         poster: string
-    ) => {
+    ): Promise<string | null> => {
         if (!poster) {
+            console.log(
+                "POSTER ERROR: No poster value"
+            );
+
             return null;
         }
 
-        if (poster.startsWith("http")) {
+        console.log(
+            "POSTER VALUE:",
+            poster
+        );
+
+        if (
+            poster.startsWith("http://") ||
+            poster.startsWith("https://")
+        ) {
+            console.log(
+                "POSTER TYPE: Direct URL"
+            );
+
             return poster;
         }
 
-        if (poster.startsWith("/uploads/")) {
-            return `${API_URL}${poster}`;
-        }
+        if (
+            poster.startsWith("/uploads/")
+        ) {
+            const uploadUrl =
+                `${API_URL}${poster}`;
 
-        try {
-            const token =
-                await AsyncStorage.getItem("token");
-
-            const response = await axios.get(
-                `${API_URL}/api/storage/url`,
-                {
-                    params: {
-                        key: poster,
-                    },
-                    headers: {
-                        Authorization:
-                            `Bearer ${token}`,
-                    },
-                }
-            );
-
-            return response.data.url;
-        } catch (error) {
             console.log(
-                "POSTER ERROR:",
-                error
+                "POSTER TYPE: Upload URL",
+                uploadUrl
             );
 
-            return null;
+            return uploadUrl;
         }
+
+        if (
+            poster.startsWith("posters/")
+        ) {
+            const imageUrl =
+                `${API_URL}/api/storage/image?key=${encodeURIComponent(
+                    poster
+                )}`;
+
+            console.log(
+                "POSTER TYPE: R2 PROXY"
+            );
+
+            console.log(
+                "R2 PROXY URL:",
+                imageUrl
+            );
+
+            return imageUrl;
+        }
+
+        console.log(
+            "POSTER TYPE: Unknown"
+        );
+
+        return null;
     };
 
     const handleCategory = (
@@ -669,6 +697,13 @@ function ContinueWatchingCard({
                         uri: posterUrl,
                     }}
                     style={styles.continuePoster}
+                    onError={(event) =>
+                        console.log(
+                            "CONTINUE POSTER IMAGE ERROR:",
+                            event.nativeEvent
+                                .error
+                        )
+                    }
                 />
             ) : (
                 <View
@@ -748,6 +783,13 @@ function MoviePoster({
                         uri: posterUrl,
                     }}
                     style={styles.poster}
+                    onError={(event) =>
+                        console.log(
+                            "MOVIE POSTER IMAGE ERROR:",
+                            event.nativeEvent
+                                .error
+                        )
+                    }
                 />
             ) : (
                 <View style={styles.noPoster}>
