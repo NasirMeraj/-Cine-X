@@ -278,6 +278,11 @@ export default function MovieDetails() {
                 return;
             }
 
+            console.log(
+                "FETCHING MOVIE:",
+                id
+            );
+
             const response =
                 await axios.get(
                     `${API_URL}/api/movies/${id}`,
@@ -289,9 +294,24 @@ export default function MovieDetails() {
                     }
                 );
 
+            console.log(
+                "MOVIE API RESPONSE:",
+                response.data
+            );
+
             const movieData =
                 response.data.movie ||
                 response.data;
+
+            console.log(
+                "MOVIE DATA:",
+                movieData
+            );
+
+            console.log(
+                "MOVIE POSTER VALUE:",
+                movieData.poster
+            );
 
             setMovie(movieData);
 
@@ -303,9 +323,21 @@ export default function MovieDetails() {
             if (movieData.poster) {
                 if (
                     movieData.poster.startsWith(
-                        "http"
+                        "http://"
+                    ) ||
+                    movieData.poster.startsWith(
+                        "https://"
                     )
                 ) {
+                    console.log(
+                        "POSTER TYPE: DIRECT URL"
+                    );
+
+                    console.log(
+                        "POSTER URL:",
+                        movieData.poster
+                    );
+
                     setPosterUrl(
                         movieData.poster
                     );
@@ -314,10 +346,66 @@ export default function MovieDetails() {
                         "/uploads/"
                     )
                 ) {
-                    setPosterUrl(
-                        `${API_URL}${movieData.poster}`
+                    const uploadUrl =
+                        `${API_URL}${movieData.poster}`;
+
+                    console.log(
+                        "POSTER TYPE: UPLOAD"
                     );
+
+                    console.log(
+                        "POSTER URL:",
+                        uploadUrl
+                    );
+
+                    setPosterUrl(
+                        uploadUrl
+                    );
+                } else if (
+                    movieData.poster.startsWith(
+                        "posters/"
+                    )
+                ) {
+                    const proxyUrl =
+                        `${API_URL}/api/storage/image?key=${encodeURIComponent(
+                            movieData.poster
+                        )}`;
+
+                    console.log(
+                        "POSTER TYPE: R2 PROXY"
+                    );
+
+                    console.log(
+                        "POSTER KEY:",
+                        movieData.poster
+                    );
+
+                    console.log(
+                        "POSTER PROXY URL:",
+                        proxyUrl
+                    );
+
+                    setPosterUrl(
+                        proxyUrl
+                    );
+                } else {
+                    console.log(
+                        "POSTER TYPE: UNKNOWN"
+                    );
+
+                    console.log(
+                        "UNKNOWN POSTER VALUE:",
+                        movieData.poster
+                    );
+
+                    setPosterUrl(null);
                 }
+            } else {
+                console.log(
+                    "NO POSTER IN MOVIE DATA"
+                );
+
+                setPosterUrl(null);
             }
         } catch (error: any) {
             console.log(
@@ -1054,6 +1142,17 @@ export default function MovieDetails() {
                                 uri: posterUrl,
                             }}
                             style={styles.poster}
+                            onLoad={() =>
+                                console.log(
+                                    "POSTER IMAGE LOADED"
+                                )
+                            }
+                            onError={(error) =>
+                                console.log(
+                                    "POSTER IMAGE ERROR:",
+                                    error.nativeEvent
+                                )
+                            }
                         />
 
                         {movie.premium && (
